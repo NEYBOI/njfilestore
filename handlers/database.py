@@ -11,6 +11,7 @@ class Database:
         self._client = motor.motor_asyncio.AsyncIOMotorClient(uri)
         self.db = self._client[database_name]
         self.col = self.db.users
+        self.sessions = self.db.sessions
 
     def new_user(self, id):
         return dict(
@@ -74,6 +75,23 @@ class Database:
     async def get_all_banned_users(self):
         banned_users = self.col.find({'ban_status.is_banned': True})
         return banned_users
+
+    async def set_user_session(self, user_id: int, session_string: str):
+        await self.sessions.update_one(
+            {'user_id': int(user_id)},
+            {'$set': {'session_string': session_string, 'updated_at': datetime.datetime.utcnow().isoformat()}},
+            upsert=True
+        )
+
+    async def get_user_session(self, user_id: int):
+        doc = await self.sessions.find_one({'user_id': int(user_id)})
+        return doc.get('session_string') if doc else None
+
+    async def delete_user_session(self, user_id: int):
+        await self.sessions.delete_one({'user_id': int(user_id)})
+
+    async def get_all_sessions(self):
+        return await self.sessions.find({}).to_list(length=None)
 
 
 db = Database(Config.DATABASE_URL, Config.BOT_USERNAME)
