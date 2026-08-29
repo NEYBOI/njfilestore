@@ -94,38 +94,29 @@ async def start(bot: Client, cmd: Message):
     usr_cmd = cmd.text.split("_", 1)[-1]
     if usr_cmd == "/start":
         await add_user_to_database(bot, cmd)
-        if(Config.LAZY_MODE == True):
-            await cmd.reply_photo(photo=lazy_pic,
-            caption=Config.LAZY_HOME_TEXT.format(cmd.from_user.first_name, cmd.from_user.id),
-            reply_markup=InlineKeyboardMarkup(
+        home_caption = Config.LAZY_HOME_TEXT.format(cmd.from_user.first_name, cmd.from_user.id) if Config.LAZY_MODE else Config.HOME_TEXT.format(cmd.from_user.first_name, cmd.from_user.id)
+        reply_markup = InlineKeyboardMarkup(
+            [
                 [
-                    [
-                        InlineKeyboardButton("🍿supp⊕r† gr⊕up", url="https://t.me/LazyDeveloperSupport"),
-                        InlineKeyboardButton("🔊ß⊕†s chαηηεl", url="https://t.me/LazyDeveloper")
-                    ],
-                    [
-                        InlineKeyboardButton("🤖Aß⊕ut ß⊕†", callback_data="aboutbot"),
-                        InlineKeyboardButton("♥️Aß⊕ut Đ€V", callback_data="aboutdevs")
-                    ],
-                    [
-                        InlineKeyboardButton("⎝⎝✧✧ ᴡᴀᴛᴄʜ ᴛᴜᴛᴏʀɪᴀʟ ✧✧⎠⎠", url="https://youtu.be/Rtjyz3lEZwE")
-                    ]]))
-        else :
-            await cmd.reply_photo(photo=lazy_pic,
-            caption=Config.HOME_TEXT.format(cmd.from_user.first_name, cmd.from_user.id),
-            reply_markup=InlineKeyboardMarkup(
+                    InlineKeyboardButton("🍿supp⊕r† gr⊕up", url="https://t.me/LazyDeveloperSupport"),
+                    InlineKeyboardButton("🔊ß⊕†s chαηηεl", url="https://t.me/LazyDeveloper")
+                ],
                 [
-                    [
-                        InlineKeyboardButton("🍿supp⊕r† gr⊕up", url="https://t.me/LazyDeveloperSupport"),
-                        InlineKeyboardButton("🔊ß⊕†s chαηηεl", url="https://t.me/LazyDeveloper")
-                    ],
-                    [
-                        InlineKeyboardButton("🤖Aß⊕ut ß⊕†", callback_data="aboutbot"),
-                        InlineKeyboardButton("♥️Aß⊕ut Đ€V", callback_data="aboutdevs")
-                    ],
-                    [
-                        InlineKeyboardButton("⎝⎝✧✧ ᴡᴀᴛᴄʜ ᴛᴜᴛᴏʀɪᴀʟ ✧✧⎠⎠", url="https://youtu.be/Rtjyz3lEZwE")
-                    ]]))
+                    InlineKeyboardButton("🤖Aß⊕ut ß⊕†", callback_data="aboutbot"),
+                    InlineKeyboardButton("♥️Aß⊕ut Đ€V", callback_data="aboutdevs")
+                ],
+                [
+                    InlineKeyboardButton("⎝⎝✧✧ ᴡᴀᴛᴄʜ ᴛᴜᴛᴏʀɪᴀʟ ✧✧⎠⎠", url="https://youtu.be/Rtjyz3lEZwE")
+                ]
+            ]
+        )
+        if lazy_pic and (lazy_pic.startswith("http://") or lazy_pic.startswith("https://") or os.path.exists(lazy_pic)):
+            try:
+                await cmd.reply_photo(photo=lazy_pic, caption=home_caption, reply_markup=reply_markup)
+                return
+            except Exception as e:
+                print(f"Failed to send lazy_pic photo: {e}")
+        await cmd.reply_text(text=home_caption, reply_markup=reply_markup, disable_web_page_preview=True)
 
     else:
         try:
