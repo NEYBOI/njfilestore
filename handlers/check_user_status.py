@@ -11,10 +11,15 @@ async def handle_user_status(bot, cmd):
     chat_id = cmd.from_user.id
     if not await db.is_user_exist(chat_id):
         await db.add_user(chat_id)
-        await bot.send_message(
-            Config.LOG_CHANNEL,
-            f"#NEW_USER: \n\nNew User [{cmd.from_user.first_name}](tg://user?id={cmd.from_user.id})\n#User_id: {cmd.from_user.id}\nConnected to @{Config.BOT_USERNAME} !!"
-        )
+        if Config.LOG_CHANNEL:
+            try:
+                log_channel_id = int(Config.LOG_CHANNEL) if str(Config.LOG_CHANNEL).startswith("-") or str(Config.LOG_CHANNEL).isdigit() else Config.LOG_CHANNEL
+                await bot.send_message(
+                    log_channel_id,
+                    f"#NEW_USER: \n\nNew User [{cmd.from_user.first_name}](tg://user?id={cmd.from_user.id})\n#User_id: {cmd.from_user.id}\nConnected to @{Config.BOT_USERNAME} !!"
+                )
+            except Exception as e:
+                print(f"Failed to send message to LOG_CHANNEL: {e}")
 
     ban_status = await db.get_ban_status(chat_id)
     if ban_status["is_banned"]:
