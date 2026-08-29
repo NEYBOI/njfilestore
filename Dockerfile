@@ -1,37 +1,21 @@
-FROM ubuntu:18.04
+FROM python:3.9-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONIOENCODING=utf-8
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
 
 WORKDIR /app
 
-RUN apt-get update
-RUN echo y | apt-get install locales
-RUN echo y | apt install build-essential
-RUN apt -qq install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
     curl \
     git \
-    gnupg2 \
-    wget
+    && rm -rf /var/lib/apt/lists/*
 
-RUN set -ex; \
-    apt-get update \
-    && apt-get install -y --no-install-recommends \
-        busybox \
-	git \
-	python3 \
-	python3-dev \
-	python3-pip \
-	python3-lxml \
-	pv \
-	&& apt-get autoclean \
-        && apt-get autoremove \
-        && rm -rf /var/lib/apt/lists/*
-
-RUN pip3 install setuptools wheel yarl multidict
+RUN pip install --upgrade pip setuptools wheel
 COPY requirements.txt .
-RUN pip3 install -r requirements.txt
-RUN dpkg-reconfigure locales
+RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 
 CMD ["python3", "bot.py"]
-

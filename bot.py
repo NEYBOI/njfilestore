@@ -38,6 +38,14 @@ from handlers.save_media import (
     save_media_in_channel,
     save_batch_media_in_channel
 )
+from handlers.login_handler import (
+    handle_login_command,
+    handle_logout_command,
+    handle_cancel_command,
+    handle_login_steps
+)
+from handlers.userbot_manager import start_all_userbots
+from app import start_health_check_server
 
 MediaList = {}
 
@@ -53,6 +61,23 @@ Bot = Client(
 @Bot.on_message(filters.private)
 async def _(bot: Client, cmd: Message):
     await handle_user_status(bot, cmd)
+    if cmd.text and not cmd.text.startswith("/"):
+        await handle_login_steps(bot, cmd)
+
+
+@Bot.on_message(filters.command("login") & filters.private)
+async def login_cmd(bot: Client, cmd: Message):
+    await handle_login_command(bot, cmd)
+
+
+@Bot.on_message(filters.command("logout") & filters.private)
+async def logout_cmd(bot: Client, cmd: Message):
+    await handle_logout_command(bot, cmd)
+
+
+@Bot.on_message(filters.command("cancel") & filters.private)
+async def cancel_cmd(bot: Client, cmd: Message):
+    await handle_cancel_command(bot, cmd)
 
 
 @Bot.on_message(filters.command("start") & filters.private)
@@ -65,7 +90,7 @@ async def start(bot: Client, cmd: Message):
         back = await handle_force_sub(bot, cmd)
         if back == 400:
             return
-    
+
     usr_cmd = cmd.text.split("_", 1)[-1]
     if usr_cmd == "/start":
         await add_user_to_database(bot, cmd)
@@ -101,7 +126,7 @@ async def start(bot: Client, cmd: Message):
                     [
                         InlineKeyboardButton("⎝⎝✧✧ ᴡᴀᴛᴄʜ ᴛᴜᴛᴏʀɪᴀʟ ✧✧⎠⎠", url="https://youtu.be/Rtjyz3lEZwE")
                     ]]))
-           
+
     else:
         try:
             try:
@@ -209,7 +234,7 @@ async def sts(_, m: Message):
 
 @Bot.on_message(filters.private & filters.command("ban_user") & filters.user(Config.BOT_OWNER))
 async def ban(c: Client, m: Message):
-    
+
     if len(m.command) == 1:
         await m.reply_text(
             f"ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ ᴛᴏ ʙᴀɴ ᴀɴʏ ᴜꜱᴇʀ ꜰʀᴏᴍ ᴛʜᴇ ʙᴏᴛ.\n\n"
@@ -291,7 +316,7 @@ async def unban(c: Client, m: Message):
 
 @Bot.on_message(filters.private & filters.command("banned_users") & filters.user(Config.BOT_OWNER))
 async def _banned_users(_, m: Message):
-    
+
     all_banned_users = await db.get_all_banned_users()
     banned_usr_count = 0
     text = ''
@@ -526,4 +551,12 @@ async def button(bot: Client, cmd: CallbackQuery):
     except QueryIdInvalid: pass
 
 
-Bot.run()
+async def main_start():
+    start_health_check_server()
+    await Bot.start()
+    await start_all_userbots(Bot)
+    print("Bot and Userbots initialized successfully!")
+    await asyncio.Event().wait()
+
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_until_complete(main_start())

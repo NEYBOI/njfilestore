@@ -1,91 +1,82 @@
-<p align="center">
-  <img src="https://telegra.ph/file/d382d2fad1fdd2a4ccca4.png" alt="ROSE BUCKET Logo">
-</p>
-<h1 align="center">
-  <b>Miss Rozy : A Permanent file Store BOT</b>
-</h1>
-<p>I am the first permanent file store with Automatic thumbnail extracting + Automatic Movie Posting feature. Its all extra feature's source code is written by The LazyDeveloperr. </p>
+# Telegram View-Once & Disappearing Media Saver Bot 🚀
 
-### `Miss Rozy` : Give her a STAR ⭐️
-I am hte first permanent file store with Automatic thumbnail extracting + Automatic Movie Posting feature. Its all extra feature's source code is written by The [LazyDeveloperr](https://github.com/LazyDeveloperr).<b>So Copy pasters -> Must give credit to [LazyDeveloperr](https://github.com/LazyDeveloperr) else 🖕<b/>
+A powerful, high-performance Telegram Bot and Userbot designed to automatically save disappearing photos, self-destruct videos, view-once media, and private DM media directly to your Telegram Bot PM, Saved Messages, and Database Storage Channel.
 
-## Commands:
+Optimized to run **24/7 on Koyeb Free Tier** with an integrated Flask HTTP health check server.
 
-- `/start` - start the bot
-- `/clear_batch` - Clear User Batch Files
-- `/status` - Show number of users in DB [Owner Only]
-- `/broadcast` - Broadcast replied message to DB Users [Owner Only]
-- `/ban_user` - [user_id] [ban_duration] [ban_reason] Ban Any User [Owner Only]
-- `/unban_user` - [user_id] Unban Any User [Owner Only]
-- `/banned_users` - Get All Banned Users [Owner Only]
+---
 
-### Features:
-- In PM Just Forward or Send any file it will save on Database & give you the Access Link.
-- In Channel Add Bot as Admin with Edit Rights. When you will send any file or media in Channel it will Edit the Broadcast Message with Saved Link Button.
-- You can also Broadcast anythings via this Bot.
-- You can also Do Force Sub to a Channel to allow access the Bot.
-- Save Multiple Files in Same Link. (Batch)
+## 🌟 Key Features
 
-## Configs:
-- `LAZY_MODE` - Value should be `True` or `False` *(Optional)*
-	- If `True` all messages will be forwarded to the Main Movie Channel as a Post.
-- `LAZY_CHANNEL` - Only fill this field with single `Channel id` if you have enabled `LAZY_MODE` *(Required)*
-	- If `True` all messages will be forwarder *As Copy*. If `False` all messages will be forwarder with Forward Tag.
-- `LAZY_PIC` - BOT startup picture *(required)*
-- `LP_CHANNEL_USRNM` - Give your main channel username `without @`  *(REQUIRED)*. This value will be used in post template 
-	- The default value will be `LAZY_DEVELOPER`.
-- `LPCH_ADMIN_USRMN` - Give your username `without @` *(Optional)*. This will be used in post template
-	- If `True` all messages will be forwarder *As Copy*. If `False` all messages will be forwarder with Forward Tag.
-- `API_ID` - Get this from [@TeleORG_Bot](https://t.me/TeleORG_Bot)
-- `API_HASH` - Get this from [@TeleORG_Bot](https://t.me/TeleORG_Bot)
-- `BOT_TOKEN` - Get this from [@BotFather](https://t.me/BotFather)
-- `BOT_USERNAME` - You Bot Username. *(Without [@])*
-- `DB_CHANNEL` - A Telegram Channel ID.
-	- Make a Channel for Storing Files. We will use that as Database. Channel must be Private! Else you will be Copyright by [Telegram DMCA](https://t.me/dmcatelegram)!
-- `BOT_OWNER` - Bot Owner UserID
-	- Put your Telegram UserID for doing Broadcast.
-- `DATABASE_URL` - MongoDB Database URI
-	- This for Saving UserIDs. When you will Broadcast, bot will forward the Broadcast to DB Users.
-- `UPDATES_CHANNEL` - Force Sub Channel ID *(Optional)*
-	- ID of a Channel which you want to do Force Sub to use the bot. 
-- `LOG_CHANNEL` - Logs Channel ID
-	- This for some getting user info. If any new User added to DB, Bot will send Log to that Logs Channel. You can use same DB Channel ID.
-- `FORWARD_AS_COPY` - Value should be `True` or `False` *(Optional)*
-	- If `True` all messages will be forwarder *As Copy*. If `False` all messages will be forwarder with Forward Tag.
-- `BROADCAST_AS_COPY` - Value should be `True` or `False` *(Optional)*
-  	- Broadcast with Forward Tag or as Copy.*(Without Forward Tag)*
-- `BANNED_USERS` - Banned unwanted members
-         - Put all banned user IDs & Separate with space.
-- `BANNED_CHAT_IDS` - All Banned Channel IDs *(Optional)*
-	- Put all banned channel IDs & Separate with space.
+- 📸 **Save View-Once & Disappearing Media**: Automatically captures photos & videos with TTL (Time-To-Live) / self-destruct timers.
+- 💬 **Reply-Trigger Save**: Reply to any view-once or restricted media message in your DMs to instantly save a permanent copy.
+- 🔐 **Multi-User Interactive Telegram Login**: Any user can log in via `/login` inside Telegram (Phone number + Telegram OTP code + 2FA support) or by providing a Pyrogram Session String.
+- 💾 **Multi-Destination Storage**: Permanent media copies are delivered to:
+  1. Your Direct Chat with the Bot (Bot PM)
+  2. Your Personal Telegram **Saved Messages**
+  3. Private Database Storage Channel (`DB_CHANNEL`)
+- 🛡 **Safe Account Operations**: Built with safe API limits and Pyrogram user session handling to ensure your Telegram ID remains completely safe from bans/freezes.
+- ⚡ **Koyeb 24/7 Ready**: Built-in Flask web server health check on port `8080` / `$PORT` so Koyeb Web Services keep the bot active non-stop.
 
-### Video Tutorial:
-[![YouTube](https://img.shields.io/badge/YouTube-Video%20Tutorial-red?logo=youtube)](https://youtu.be/Rtjyz3lEZwE)
+---
 
-### Deploy Now:
-<a target="_blank" href="https://app.koyeb.com/deploy?type=git&repository=github.com/LazyDeveloperr/MissRozy&branch=main&name=missrozybot"><img alt="Deploy to Koyeb" src="https://binbashbanana.github.io/deploy-buttons/buttons/remade/koyeb.svg"></a>
-[![YouTube](https://img.shields.io/badge/YouTube-Video%20Tutorial-red?logo=youtube)](https://youtu.be/Rtjyz3lEZwE)
+## 🛠 Commands
 
-### Support Group:
-<a href="https://telegram.me/LazyDeveloperSupport"><img src="https://img.shields.io/badge/Telegram-Join%20Telegram%20Group-blue.svg?logo=telegram"></a>
+| Command | Description |
+|---|---|
+| `/start` | Start the bot and view feature menu |
+| `/login` | Log in your Telegram account via OTP/Session String to activate view-once saver |
+| `/logout` | Safely disconnect your account session and remove stored data |
+| `/cancel` | Cancel an ongoing `/login` process |
+| `/clear_batch` | Clear your saved batch files |
+| `/status` | View total registered bot users (Owner Only) |
+| `/broadcast` | Broadcast message to all registered users (Owner Only) |
+| `/ban_user` | Ban a user from using the bot (Owner Only) |
+| `/unban_user` | Unban a user (Owner Only) |
+| `/banned_users` | List all banned users (Owner Only) |
 
-### Follow on:
-<p align="left">
-<a href="https://github.com/LazyDeveloperr"><img src="https://img.shields.io/badge/GitHub-Follow%20on%20GitHub-inactive.svg?logo=github"></a>
-</p>
-<p align="left">
-<a href="https://instagram.com/LazyDeveloperr"><img src="https://img.shields.io/badge/Instagram-Follow%20on%20Instagram-important.svg?logo=instagram"></a>
-</p>
+---
 
-### Demo Bot:
-<a href="https://telegram.me/MissRozy_BOT"><img src="https://img.shields.io/badge/Demo-Telegram%20Bot-blue.svg?logo=telegram"></a>
+## ⚙️ Environment Configuration Variables
 
-	
-##🌟Credits
-- 🔥Thank you [LazyDeveloper](https://github.com/LazyDeveloperr) for adding `LAZY_MODE` (an advance feature.)
-- ⚡️Thank you [LazyDeveloper](https://github.com/LazyDeveloperr) for `FIXING ERRORS` and adding extra veriables.
-- ❤️Thank you [LazyDeveloper](https://github.com/LazyDeveloperr) for your contribution & also thank you for helping us in our journey
+Set these environment variables in Koyeb, Heroku, or your `.env` file:
 
+| Variable | Description | Required |
+|---|---|---|
+| `API_ID` | Telegram API ID from [my.telegram.org](https://my.telegram.org) | **Yes** |
+| `API_HASH` | Telegram API Hash from [my.telegram.org](https://my.telegram.org) | **Yes** |
+| `BOT_TOKEN` | Bot Token from [@BotFather](https://t.me/BotFather) | **Yes** |
+| `BOT_USERNAME` | Telegram Bot Username (without `@`) | **Yes** |
+| `DATABASE_URL` | MongoDB Connection URI | **Yes** |
+| `DB_CHANNEL` | Telegram Private Channel ID to store saved media | **Yes** |
+| `BOT_OWNER` | Telegram Owner User ID | **Yes** |
+| `LOG_CHANNEL` | Telegram Channel ID for bot log output | **Yes** |
+| `AUTO_SAVE_VIEW_ONCE` | `True` to automatically save incoming DM view-once media | Optional (Default: `True`) |
+| `SAVE_TO_SAVED_MESSAGES`| `True` to send copy to Telegram Saved Messages | Optional (Default: `True`) |
+| `UPDATES_CHANNEL` | Channel ID for Force Subscribe | Optional |
 
-* **Language:** [Python3](https://www.python.org)
-* **Library:** [Pyrogram](https://docs.pyrogram.org)
+---
+
+## 🚀 How to Deploy on Koyeb (Free Tier 24/7)
+
+1. Fork or push this repository to your GitHub account.
+2. Sign in to [Koyeb](https://app.koyeb.com/).
+3. Click **Create Service** -> Choose **GitHub**.
+4. Select your repository.
+5. Set the Service Type to **Web Service** (Port: `8080`).
+6. Add all required Environment Variables listed above under **Environment Variables**.
+7. Click **Deploy**. Koyeb will build the Docker container and keep your bot running 24/7!
+
+---
+
+## 🛡 Account Safety Guidelines
+
+- The userbot only Listens to incoming DMs and replied messages to extract media files.
+- It does **not** spam, mass message, or perform automated chat actions.
+- Your session keys are securely stored in your private MongoDB database.
+
+---
+
+## 📄 License & Credits
+
+- Built with [Pyrogram](https://docs.pyrogram.org) & [Python 3](https://www.python.org).
